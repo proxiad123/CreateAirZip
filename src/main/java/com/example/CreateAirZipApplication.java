@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,13 +99,7 @@ public class CreateAirZipApplication implements CommandLineRunner {
     }
 
     private boolean isCopyTypeFamiliar(String copyTypeFromFile){
-        CopyTypeEnum[] copyTypeValues = CopyTypeEnum.values();
-        for(CopyTypeEnum copyType: copyTypeValues){
-            if(copyType.getType().equals(copyTypeFromFile)){
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(CopyTypeEnum.values()).anyMatch(copyType -> copyType.getType().equals(copyTypeFromFile));
     }
 
 	private void copyFiles(CopyDetail copyDetail) {
