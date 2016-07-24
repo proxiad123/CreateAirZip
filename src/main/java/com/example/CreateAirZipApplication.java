@@ -56,8 +56,13 @@ public class CreateAirZipApplication implements CommandLineRunner {
 	}
 
 	private void copyInstallCsvResources() {
-		try (Stream<String> stream = Files.lines(Paths.get(projectPath, FILE_NAME))) {
-			stream.skip(1).filter(this::filterCsvLines).map(CopyDetail::new).forEach(this::copyFiles);
+		try (Stream<String> installCsvLines = Files.lines(Paths.get(projectPath, FILE_NAME))) {
+            installCsvLines
+                    .skip(1)
+                    .filter(this::filterCsvLines)
+                    .map(CopyDetail::new)
+                    .forEach(this::copyFiles)
+            ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
