@@ -29,7 +29,7 @@ public class CreateAirZipApplication implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAirZipApplication.class);
 
     private static final String FILE_NAME = "install.csv";
-    // find folder in path starting with "$(" and ending with ")" - (environment variable)
+    // search for word in path starting with "$(" and ending with ")" - (environment variable)
     private static final String REGEX_ENV_VARIABLE = "\\$\\(\\w+\\)";
 
 	@Value("${project-path}")
