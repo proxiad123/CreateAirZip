@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,8 +57,13 @@ public class CreateAirZipApplication implements CommandLineRunner {
 	}
 
 	private void copyInstallCsvResources() {
-		try (Stream<String> stream = Files.lines(Paths.get(projectPath, FILE_NAME))) {
-			stream.skip(1).filter(this::filterCsvLines).map(CopyDetail::new).forEach(this::copyFiles);
+		try (Stream<String> installCsvLines = Files.lines(Paths.get(projectPath, FILE_NAME))) {
+            installCsvLines
+                    .skip(1)
+                    .filter(this::filterCsvLines)
+                    .map(CopyDetail::new)
+                    .forEach(this::copyFiles)
+            ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,13 +99,7 @@ public class CreateAirZipApplication implements CommandLineRunner {
     }
 
     private boolean isCopyTypeFamiliar(String copyTypeFromFile){
-        CopyTypeEnum[] copyTypeValues = CopyTypeEnum.values();
-        for(CopyTypeEnum copyType: copyTypeValues){
-            if(copyType.getType().equals(copyTypeFromFile)){
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(CopyTypeEnum.values()).anyMatch(copyType -> copyType.getType().equals(copyTypeFromFile));
     }
 
 	private void copyFiles(CopyDetail copyDetail) {
